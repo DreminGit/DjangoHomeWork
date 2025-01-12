@@ -3,38 +3,6 @@ from django.db import models
 
 
 class Category(models.Model):
-    name = models.CharField(
-        max_length=50,
-        verbose_name="наименование",
-        help_text="введите наименование категории",
-    )
-    description = models.CharField(
-        max_length=200, verbose_name="описание", help_text="введите описание категории"
-    )
-
-    class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
-        ordering = ["name"]
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class Product(models.Model):
-    name = models.CharField(
-        max_length=50,
-        verbose_name="наименование продукта",
-        help_text="введите наименование продукта",
-    )
-    description = models.CharField(
-        max_length=150, verbose_name="описание", help_text="опишите продукта"
-    )from datetime import datetime
-
-from django.db import models
-
-
-class Category(models.Model):
     '''Создаем модель категории товаров'''
     name = models.CharField(
         max_length=50,
@@ -107,7 +75,6 @@ class Version(models.Model):
         related_name="versions"
     )
     version_number = models.SmallIntegerField(
-        unique=True,
         verbose_name="Номер версии",
         help_text="Введите номер версии"
     )
@@ -117,17 +84,26 @@ class Version(models.Model):
         help_text="Введите название версии"
     )
     is_current = models.BooleanField(
-        default=False,
+        default=True,
         verbose_name="Текущая версия",
         help_text="Установите, если это текущая версия продукта"
     )
 
     def save(self, *args, **kwargs):
-        # Если номер версии не установлен, увеличиваем его
+        # Если номер версии не установлен, получаем максимальный номер версии для продукта
         if not self.version_number:
             max_version = Version.objects.filter(product=self.product).aggregate(models.Max('version_number'))[
                 'version_number__max']
-            self.version_number = max_version + 1 if max_version is not None else 1
+            self.version_number = (max_version + 1) if max_version is not None else 1
+
+        # Устанавливаем флаг is_current для всех предыдущих версий в False
+        Version.objects.filter(product=self.product, is_current=True).update(is_current=False)
+
+        # Устанавливаем текущую версию как актуальную
+        self.is_current = True
+
+        # Сохраняем версию
+        super().save(*args, **kwargs)
 
         super().save(*args, **kwargs)
 
@@ -135,6 +111,9 @@ class Version(models.Model):
         verbose_name = "Версия"
         verbose_name_plural = "Версии"
         ordering = ["-is_current", "version_number"]
+        constraints = [
+            models.UniqueConstraint(fields=['product', 'version_number'], name='unique_product_version')
+        ]
 
     def __str__(self):
         return f"{self.version_name} (Версия {self.version_number})"
