@@ -13,24 +13,21 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from django.conf.global_settings import STATICFILES_DIRS
 
-
-# Создайте пути внутри проекта следующим образом: BASE_DIR / 'subdir'.
+# Создайте пути проекта следующим образом: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Настройки для быстрого запуска разработки
+# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# Настройки для быстрого запуска разработки - не подходят для производства
-# Просмотр https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# ПРЕДУПРЕЖДЕНИЕ О БЕЗОПАСНОСТИ: храните секретный ключ, используемый при производстве, в секрете!
+# ПРЕДУПРЕЖДЕНИЕ БЕЗОПАСНОСТИ: храните секретный ключ, в безопасности!
 SECRET_KEY = 'django-insecure-1fq%8&&*j#2mog+7ht8&ik_-+0+k9lm4d8an95@)4d-%!jl%92'
 
-# ПРЕДУПРЕЖДЕНИЕ О БЕЗОПАСНОСТИ: не запускайте программу с включенной отладкой в рабочей среде!!
+# ПРЕДУПРЕЖДЕНИЕ БЕЗОПАСНОСТИ: не запускайте программу с включенной отладкой в рабочей среде!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Область применения
+# Определение области применения
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catalog',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# База данных
+# база данных
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
