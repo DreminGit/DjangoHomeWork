@@ -118,7 +118,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     BASE_DIR / 'static',
 )
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # Тип поля
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
