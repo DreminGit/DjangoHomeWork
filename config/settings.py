@@ -1,25 +1,13 @@
-"""
-Настройки Django для конфигураций проекта.
-Сгенерированы программой 'django-admin startproject' с использованием Django 5.1.
-Более подробную информацию об этом файле смотрите
-в разделе
-https://docs.djangoproject.com/en/5.1/topics/settings/
-
-Полный список настроек и их значений смотрите
-в разделе
-https://docs.djangoproject.com/en/5.1/ref/settings/
-"""
-
 from pathlib import Path
-from django.conf.global_settings import STATICFILES_DIRS
+from django.conf.global_settings import STATICFILES_DIRS, LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
 
-# Создайте пути проекта следующим образом: BASE_DIR / 'subdir'.
+# Создайте пути внутри проекта следующим образом: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Настройки для быстрого запуска разработки
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+# Настройки для быстрого запуска разработки - непригодны для производства
+# смтореть https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# ПРЕДУПРЕЖДЕНИЕ БЕЗОПАСНОСТИ: храните секретный ключ, в безопасности!
+# РЕДУПРЕЖДЕНИЕ БЕЗОПАСНОСТИ: храните секретный ключ, используемый при производстве, в секрете!
 SECRET_KEY = 'django-insecure-1fq%8&&*j#2mog+7ht8&ik_-+0+k9lm4d8an95@)4d-%!jl%92'
 
 # ПРЕДУПРЕЖДЕНИЕ БЕЗОПАСНОСТИ: не запускайте программу с включенной отладкой в рабочей среде!
@@ -27,7 +15,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# Определение области применения
+# Определение области
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog',
     'blog',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -71,7 +60,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# база данных
+# База данных
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
@@ -79,11 +68,19 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'project5',
         'USER': 'postgres',
-        'PASSWORD': '1234',
+        'PASSWORD': '78orelil',
         'HOST': 'localhost',
         'PORT': '5432'
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Например, smtp.gmail.com для Gmail
+EMAIL_PORT = 587  # Обычно 587 для TLS
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'sev231613@gmail.com'  # Ваш email
+EMAIL_HOST_PASSWORD = 'mskq xcbe ugom mqmn'  # Ваш пароль
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Проверка пароля
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -106,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Интернационализация
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -121,6 +118,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     BASE_DIR / 'static',
 )
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Тип поля
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -129,3 +127,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/'  # При входе перенаправляет на данный урл
+LOGOUT_REDIRECT_URL = '/'  # При выходе перенаправляет на данный урл
+LOGIN_URL = 'users:login'

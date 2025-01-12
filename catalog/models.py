@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db import models
+from config import settings
 
 
 class Category(models.Model):
@@ -29,6 +30,7 @@ class Product(models.Model):
         verbose_name="наименование продукта",
         help_text="введите наименование продукта",
     )
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     description = models.CharField(
         max_length=150, verbose_name="описание", help_text="опишите продукта"
     )
