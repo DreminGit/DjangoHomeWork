@@ -28,9 +28,9 @@ class Command(BaseCommand):
 
         # Создание пользователя
         user = User.objects.create(
-            email='moder@mail.ru',
+            email='maildota4@mail.ru',
             first_name='Moder',
-            last_name='Modernization',
+            last_name='Moderov',
             is_superuser=False,  # Измени на False, если не нужен суперпользователь
             is_staff=True,  # Убедись, что модератор может входить в админку
         )
