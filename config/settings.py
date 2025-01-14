@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from django.conf.global_settings import STATICFILES_DIRS, LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
+#from django.conf.global_settings import STATICFILES_DIRS, LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
 from dotenv import load_dotenv
 
 # Создайте пути внутри проекта следующим образом: BASE_DIR / 'subdir'.
